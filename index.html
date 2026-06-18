@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Cyril GRUNSPAN</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Helvetica', 'Arial', sans-serif;
+            background-color: #f5f5f5;
+            color: #1a1a1a;
+            line-height: 1.4;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 20px auto;
+            background: white;
+            padding: 40px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        .primary { color: #0055aa; }
+        .secondary { color: #333333; }
+        .text-color { color: #1a1a1a; }
+        
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #0055aa;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .name {
+            font-size: 32px;
+            font-weight: bold;
+            color: #0055aa;
+            margin-bottom: 8px;
+        }
+        
+        .title {
+            font-size: 18px;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+        }
+        
+        .subtitle {
+            font-size: 14px;
+            color: #333333;
+            margin-bottom: 15px;
+        }
+        
+        .contact {
+            font-size: 12px;
+            color: #2F4A62;
+            font-weight: bold;
+        }
+        
+        .contact a {
+            color: #2F4A62;
+            text-decoration: none;
+        }
+        
+        .contact a:hover {
+            text-decoration: underline;
+        }
+        
+        .separator {
+            text-align: center;
+            color: #0055aa;
+            font-size: 16px;
+            margin: 15px 0;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #0055aa;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 5px;
+        }
+        
+        .profil {
+            font-size: 13px;
+            color: #1a1a1a;
+        }
+        
+        .experience-item {
+            margin-bottom: 15px;
+        }
+        
+        .role {
+            font-size: 14px;
+            font-weight: bold;
+            color: #1a1a1a;
+            margin-bottom: 3px;
+        }
+        
+        .company {
+            font-size: 12px;
+            color: #333333;
+            margin-bottom: 3px;
+        }
+        
+        .date {
+            font-size: 12px;
+            font-weight: bold;
+            color: #0055aa;
+            margin-bottom: 5px;
+        }
+        
+        .tasks {
+            font-size: 12px;
+            color: #1a1a1a;
+            margin-left: 15px;
+        }
+        
+        .tasks li {
+            margin-bottom: 2px;
+        }
+        
+        .formation-item {
+            font-size: 12px;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        
+        .formation-item strong {
+            color: #1a1a1a;
+        }
+        
+        .competence-item {
+            font-size: 12px;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        
+        .competence-item strong {
+            color: #1a1a1a;
+        }
+        
+        .publication-item {
+            font-size: 11px;
+            color: #1a1a1a;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+        
+        .publication-item strong {
+            color: #1a1a1a;
+        }
+        
+        .note {
+            font-size: 10px;
+            color: #333333;
+            font-style: italic;
+            margin-top: 8px;
+            line-height: 1.3;
+        }
+        
+        .ouvrage-item {
+            font-size: 12px;
+            color: #1a1a1a;
+            margin-bottom: 4px;
+        }
+        
+        .ouvrage-item strong {
+            color: #1a1a1a;
+        }
+        
+        .stats-item {
+            font-size: 11px;
+            color: #1a1a1a;
+            margin-bottom: 3px;
+        }
+        
+        .stats-item strong {
+            color: #1a1a1a;
+        }
+        
+        .langue-item {
+            font-size: 12px;
+            color: #1a1a1a;
+            margin-bottom: 3px;
+        }
+        
+        .langue-item strong {
+            color: #1a1a1a;
+        }
+        
+        .media-item {
+            font-size: 11px;
+            color: #1a1a1a;
+            margin-bottom: 3px;
+            margin-left: 15px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .container {
+                margin: 0;
+                padding: 20px;
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="name">Cyril GRUNSPAN</div>
+            <div class="title primary">Directeur de l'Institut des Crypto-Actifs</div>
+            <div class="subtitle">Ancien élève de l'École Normale Supérieure | Actuaire | Docteur de l'École Polytechnique</div>
+            <div class="contact">
+                Grand Paris, France  •  cyril@grunspan.org  •  Titulaire d'une RQTH  •  
+                <a href="https://www.linkedin.com/in/cyrilgrunspan/" target="_blank">LinkedIn</a>
+            </div>
+        </div>
+        
+        <div class="separator">&#8229;</div>
+        
+        <div class="section">
+            <div class="section-title">Profil</div>
+            <div class="profil">Ancien élève de l'École Normale Supérieure, Actuaire (CNAM), et Docteur en mathématiques de l'École Polytechnique. Directeur de l'Institut des Crypto-Actifs du Pôle Léonard de Vinci. Expert en blockchain, crypto-actifs, finance de marché et mathématiques financières. 567 citations Google Scholar, h-index 14.</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Expérience Professionnelle</div>
+            <div class="experience-item">
+                <div class="role">Directeur de l'Institut des Crypto-Actifs</div>
+                <div class="company">Pôle Léonard de Vinci, Grand Paris</div>
+                <div class="date">2024 – Présent</div>
+                <div class="tasks">
+                    <li>• Direction de l'institut dédié aux crypto-actifs, blockchain et monnaies numériques</li>
+                    <li>• Enseignement et recherche en fintech et technologies blockchain</li>
+                </div>
+            </div>
+            <div class="experience-item">
+                <div class="role">Responsable Département d'Ingénierie Financière</div>
+                <div class="company">ESILV - École Supérieure d'Ingénieurs Léonard de Vinci</div>
+                <div class="date">2013 – 2024</div>
+                <div class="tasks">
+                    <li>• Direction du département d'Ingénierie Financière depuis 2013</li>
+                    <li>• Création de la majeure Fintech avec master spécialisé en blockchain</li>
+                    <li>• Création de la majeure Actuariat</li>
+                </div>
+            </div>
+            <div class="experience-item">
+                <div class="role">Directeur Éditorial</div>
+                <div class="company">Maison d'édition Portaparole</div>
+                <div class="date">2001 – 2007</div>
+                <div class="tasks">
+                    <li>• Direction éditoriale de la maison d'édition</li>
+                    <li>• Gestion des publications et du catalogue</li>
+                </div>
+            </div>
+            <div class="experience-item">
+                <div class="role">Professeur Associé</div>
+                <div class="company">ESILV</div>
+                <div class="date">2010 – 2013</div>
+                <div class="tasks">
+                    <li>• Cours: market risk, Basel 3, derivative securities pricing and hedging</li>
+                    <li>• Quantitative portfolio management, calibration, risque de taux</li>
+                </div>
+            </div>
+            <div class="experience-item">
+                <div class="role">Analyste Quantitatif (Quant)</div>
+                <div class="company">BNP Paribas, Londres</div>
+                <div class="date">2007 – 2010</div>
+                <div class="tasks">
+                    <li>• Travail comme quant dans une banque d'investissement</li>
+                    <li>• Market risk, Basel 3, derivative securities</li>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Formation</div>
+            <div class="formation-item"><b>Master 2 Actuariat</b> | CNAM (Actuaire) | <b>2013–2015</b></div>
+            <div class="formation-item"><b>Master 2 Modélisation Aléatoire</b> | Université Paris 7 | <b>2006–2007</b></div>
+            <div class="formation-item"><b>Master 2 pro Médiation Culturelle</b> | Université Sorbonne Nouvelle (Paris III) | <b>2005–2006</b></div>
+            <div class="formation-item"><b>Thèse de Mathématiques (Docteur)</b> | École Polytechnique | <b>1998–2001</b></div>
+            <div class="formation-item"><b>Agrégation de Mathématiques</b> | ENS Paris - Reçu 18ème | <b>1994</b></div>
+            <div class="formation-item"><b>Entrée à École Normale Supérieure</b> | ENS Paris - Reçu 11ème | <b>1991</b></div>
+            <div class="formation-item"><b>Classes Préparatoires</b> | Lycée Louis le Grand | <b>1988–1991</b></div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Compétences</div>
+            <div class="competence-item"><b>Blockchain:</b> Blockchain, crypto-actifs, cryptographie, smart contracts, Bitcoin, Ethereum</div>
+            <div class="competence-item"><b>Finance:</b> Finance de marché, mathématiques financières, market risk, Basel 3, derivative securities</div>
+            <div class="competence-item"><b>Sécurité:</b> Sécurité informatique, sécurité du protocole bitcoin</div>
+            <div class="competence-item"><b>Technique:</b> Python, LaTeX, TeXmacs, applications pour la finance</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Sélection d'articles scientifiques publiés</div>
+            <div class="publication-item"><b>1. Arbitrable stochastic games: three variations of the heads-or-tails game for bitcoin</b><br>C. Grunspan, R. Pérez-Marco<br>Probability in the Engineering and Informational Sciences, Cambridge University Press, <b>2026</b></div>
+            <div class="publication-item"><b>2. Block withholding resilience</b><br>C. Grunspan, R. Pérez-Marco<br>Digital Finance 7(1), 43–60, Springer, <b>2025</b></div>
+            <div class="publication-item"><b>3. Profit lag and alternate network mining</b><br>C. Grunspan, R. Pérez-Marco<br>Mathematical Research for Blockchain Economy, 2nd International Conference, <b>2023</b></div>
+            <div class="publication-item"><b>4. On profitability of Nakamoto double spend</b><br>C. Grunspan, R. Pérez-Marco<br>Probability in the Engineering and Informational Sciences 36(3), 732–746, <b>2022</b></div>
+            <div class="publication-item"><b>5. Blockchain and cryptocurrencies: economic and financial research</b><br>A. Cretarola, G. Figà-Talamanca, C. Grunspan<br>Decisions in Economics and Finance 44(2), 781–787, <b>2021</b></div>
+            <div class="publication-item"><b>6. Selfish mining in Ethereum</b><br>C. Grunspan, R. Pérez-Marco<br>Mathematical Research for Blockchain Economy: 2nd International Conference, <b>2020</b></div>
+            <div class="publication-item"><b>7. Effective asymptotic analysis for finance</b><br>Cyril Grunspan, Joris van der Hoeven<br>International Journal of Theoretical and Applied Finance 23(02), 2050013, <b>2020</b></div>
+            <div class="publication-item"><b>8. Selfish mining and Dyck words in Bitcoin and Ethereum networks</b><br>C. Grunspan, R. Pérez-Marco<br>Tokenomics 2019: 11:1–11:10, <b>2019</b></div>
+            <div class="publication-item"><b>9. Double spend races</b><br>C. Grunspan, R. Pérez-Marco<br>International Journal of Theoretical and Applied Finance 21(8), 1850053, <b>2018</b></div>
+            <div class="publication-item"><b>10. A new elementary geometric approach to option pricing bounds in discrete time models</b><br>Y. Braouezec, C. Grunspan<br>European Journal of Operational Research 249(1), 270–280, <b>2016</b></div>
+            <div class="note">(Note : Cette liste présente une sélection de mes publications scientifiques peer-reviewed. Je compte près de 40 articles scientifiques au total, dont une dizaine sur Bitcoin et Ethereum.)</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Ouvrages</div>
+            <div class="ouvrage-item">• <b>Algèbre - L'Oral de Mathématiques Aux Concours</b> — Livre d'exercices de maths pour prépa, Éditions Vuibert, 1994</div>
+            <div class="ouvrage-item">• <b>Marcel Proust, Tout dire</b> — Portaparole, 2007 — traduit en italien et en anglais</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Statistiques de Recherche (Google Scholar)</div>
+            <div class="stats-item">Citations: <b>567 (332 depuis 2021)</b></div>
+            <div class="stats-item">h-index: <b>14 (10 depuis 2021)</b></div>
+            <div class="stats-item">i10-index: <b>16 (10 depuis 2021)</b></div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Langues</div>
+            <div class="langue-item"><b>Français:</b> Langue mère</div>
+            <div class="langue-item"><b>Anglais:</b> Professionnel</div>
+            <div class="langue-item"><b>Italien:</b> Professionnel</div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Sélection d'interventions dans les médias</div>
+            <div class="media-item">• Tribune bitcoin.fr: 'Bitcoin et le désastre français' (2021)</div>
+            <div class="media-item">• Sud Radio: 'Osez investir' (2023)</div>
+            <div class="media-item">• BFM Crypto (2024)</div>
+            <div class="media-item">• Radio Notre Dame: Interview sur YouTube (2025)</div>
+            <div class="media-item">• Série de 22 vidéos sur le consensus de Nakamoto, disponible sur YouTube</div>
+        </div>
+    </div>
+</body>
+</html>
