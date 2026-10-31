@@ -7,7 +7,7 @@ Usage :  python3 cagnotte.py a h q z [tolérance]
 
 Calcule un encadrement [ℓ, u] de la cagnotte critique v*_z(a, h) (Définition 3.17) :
 la cagnotte au-dessus de laquelle, à l'état (a, h), continuer (Wait) vaut mieux
-qu'abandonner (Quit). Pour (a, h) = (0, 0) on retrouve v*(q, z) (Lemme 3.19(ii)).
+qu'abandonner (Quit). Pour (a, h) = (0, 0) on retrouve v*(q, z) (Lemme 3.18(ii)).
 
 Méthode (Algorithme 1 adapté à un état quelconque) : pour une cagnotte v, la valeur
 V_v de la course est encadrée par deux inductions rétrogrades sur le triangle
@@ -73,7 +73,7 @@ def wait_value(a0, h0, q, z, v, N, optimistic):
 def critical_bound(a, h, q, z, N, optimistic, tol):
     """Changement de signe en v de wait_value, par bissection (géométrique si v > 0)."""
     f = lambda v: wait_value(a, h, q, z, v, N, optimistic)
-    lo, hi = -float(a), 1.0            # v*_z(x) ≥ −a (Lemme 3.19(ii))
+    lo, hi = -float(a), 1.0            # v*_z(x) ≥ −a (Lemme 3.18(ii))
     if f(lo) > 0:
         return lo, lo
     while f(hi) <= 0:
