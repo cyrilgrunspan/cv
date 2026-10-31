@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cagnotte critique - Cyril GRUNSPAN</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Helvetica', 'Arial', sans-serif; background-color: #f5f5f5; color: #1a1a1a; line-height: 1.5; }
+        .container { max-width: 900px; margin: 20px auto; background: white; padding: 40px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
+        .header { text-align: center; border-bottom: 2px solid #0055aa; padding-bottom: 20px; margin-bottom: 25px; }
+        .name { font-size: 28px; font-weight: bold; color: #0055aa; margin-bottom: 8px; }
+        .title { font-size: 15px; color: #333333; }
+        .nav { font-size: 12px; margin-top: 12px; }
+        .nav a { color: #2F4A62; text-decoration: none; font-weight: bold; margin: 0 8px; }
+        .nav a:hover { text-decoration: underline; }
+        h2 { font-size: 17px; color: #0055aa; border-bottom: 1px solid #0055aa; padding-bottom: 4px; margin: 28px 0 12px; }
+        p { margin-bottom: 10px; font-size: 14px; }
+        form { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 14px; align-items: end; margin-top: 10px; }
+        label { display: flex; flex-direction: column; font-size: 12px; color: #333333; }
+        label b { color: #1a1a1a; font-size: 15px; font-weight: bold; margin-bottom: 3px; }
+        input { font: inherit; font-size: 15px; padding: 7px 9px; border: 1px solid #ccc; border-radius: 4px; }
+        button { font: inherit; font-size: 15px; padding: 9px 18px; border: 0; border-radius: 4px; background: #0055aa; color: #fff; cursor: pointer; font-weight: bold; }
+        button:disabled { opacity: .5; cursor: wait; }
+        #out { margin-top: 22px; padding: 16px 20px; border-left: 4px solid #0055aa; background: #f5f8fc; min-height: 3em; font-size: 14px; }
+        #out .big { font-size: 22px; color: #0055aa; font-weight: bold; margin-bottom: 4px; }
+        #out .small { color: #555; font-size: 12px; }
+        .err { color: #b4472b; }
+        table { border-collapse: collapse; width: 100%; font-size: 13px; }
+        th, td { text-align: left; padding: 5px 8px; border-bottom: 1px solid #e3e3e3; }
+        th { color: #0055aa; }
+        code { font-family: Menlo, Consolas, monospace; font-size: 13px; }
+        a { color: #0055aa; }
+        .footer { margin-top: 30px; font-size: 12px; color: #555; text-align: center; }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="name">Cagnotte critique d'une course</div>
+        <div class="title">Le jeu en vaut-il la chandelle ? Arrêt optimal dans une course avec investissement perdu</div>
+        <div class="nav"><a href="index.html">CV</a> · <a href="https://cyrilgrunspan.fr">cyrilgrunspan.fr</a> · <a href="https://github.com/cyrilgrunspan">GitHub</a></div>
+    </div>
+
+    <p>Ce moteur calcule la <strong>cagnotte critique</strong> <em>v*<sub>z</sub>(a, h)</em> d'un état de la course : la cagnotte au-dessus de laquelle, à l'état (a, h), le challenger a intérêt à continuer plutôt qu'à abandonner. Pour (a, h) = (0, 0) c'est la cagnotte critique <em>v*(q, z)</em> de la course elle-même, le seuil à partir duquel entrer dans la course est rentable. Dans la lecture bitcoin, <em>q</em> est la part de puissance de hachage de l'attaquant, <em>z</em> le nombre de confirmations exigé, et la cagnotte est exprimée en récompenses de bloc.</p>
+
+    <h2>Calcul</h2>
+    <form id="f" onsubmit="return false">
+        <label><b>a</b>pas du challenger<input id="a" type="number" min="0" step="1" value="0"></label>
+        <label><b>h</b>pas du tenant<input id="h" type="number" min="0" step="1" value="0"></label>
+        <label><b>q</b>part du challenger, dans (0, 1/2)<input id="q" type="number" min="0.0001" max="0.4999" step="0.0001" value="0.1"></label>
+        <label><b>z</b>longueur de la course<input id="z" type="number" min="1" step="1" value="6"></label>
+        <label><b>δ</b>largeur relative<input id="tol" type="number" min="1e-10" max="0.1" step="1e-6" value="1e-6"></label>
+        <button id="go">Calculer</button>
+    </form>
+    <div id="out"><span class="small">Entrez a, h, q, z puis cliquez sur Calculer. Par exemple q = 0,1 et z = 6 donnent v*(0,1, 6) ≈ 2706 récompenses de bloc.</span></div>
+
+    <table id="hist" style="display:none; margin-top:16px">
+        <thead><tr><th>a</th><th>h</th><th>q</th><th>z</th><th>borne inférieure</th><th>borne supérieure</th></tr></thead>
+        <tbody></tbody>
+    </table>
+
+    <h2>Le modèle</h2>
+    <p>Course <em>R(q, z, v)</em> : à chaque période, le challenger fait un pas avec probabilité <em>q</em> et le tenant avec probabilité <em>p</em> = 1 − <em>q</em>. Une période coûte <em>q</em> au challenger (ce que ses ressources produiraient ailleurs) ; chaque pas du challenger produit un actif valant 1 s'il gagne et 0 s'il abandonne. Le challenger peut gagner la cagnotte <em>v</em>, plus ses actifs, dès que <em>a</em> &gt; <em>h</em> et <em>h</em> ≥ <em>z</em> ; il peut abandonner à tout moment. La cagnotte critique de l'état (a, h) est l'infimum de (E[actifs abandonnés] − a) / P(gagner) sur les stratégies qui commencent par attendre.</p>
+
+    <h2>La méthode</h2>
+    <p>Adaptation de l'algorithme 1 de l'article à un état quelconque. Pour une cagnotte <em>v</em>, la valeur de la course est encadrée par deux inductions rétrogrades sur le triangle <em>a</em> + <em>h</em> ≤ N̄, qui ne diffèrent que sur la dernière diagonale : abandon forcé pour la borne inférieure, borne optimiste <em>P*<sub>z</sub>(a, h)</em>·(<em>a</em> + <em>v</em>) pour la borne supérieure, où <em>P*<sub>z</sub></em> est la probabilité de gagner d'un challenger qui n'abandonne jamais. Continuer à (a, h) rapporte <em>q·V(a+1, h) + p·V(a, h+1) − q</em> ; la cagnotte critique est le point où cette quantité change de signe, qu'une bissection localise pour chaque borne. N̄ est augmenté jusqu'à ce que l'encadrement ait la largeur demandée. Le calcul est fait en virgule flottante dans votre navigateur ; les valeurs certifiées de l'article sont obtenues par arithmétique d'intervalles.</p>
+
+    <h2>Référence</h2>
+    <p>C. Grunspan et R. Pérez-Marco, <em>Is the game worth the candle? Optimal stopping in a race with sunk investment</em>, en préparation (définition 2.1, définition 3.17, algorithme 1). Le script Python équivalent est <a href="cagnotte.py"><code>cagnotte.py</code></a>.</p>
+
+    <div class="footer">Cyril Grunspan</div>
+</div>
+<script>
+function win(a, h, z) { return a > h && h >= z; }
+
+function comb(n, k) { let r = 1; for (let i = 1; i <= k; i++) r = r * (n - k + i) / i; return r; }
+
+function pstar(a, h, q, z) {
+  const p = 1 - q, lam = q / p;
+  if (win(a, h, z)) return 1;
+  if (h >= z) return Math.pow(lam, h - a + 1);
+  const m = z - h; let s = 0, sb = 0;
+  for (let k = 0; k <= z - a; k++) {
+    const b = comb(k + m - 1, k) * Math.pow(q, k) * Math.pow(p, m);
+    sb += b; s += b * Math.pow(lam, z + 1 - a - k);
+  }
+  return s + (1 - sb);
+}
+
+// q·V(a0+1,h0) + p·V(a0,h0+1) − q, V valeur tronquée sur le triangle a+h ≤ N
+function waitValue(a0, h0, q, z, v, N, optimistic) {
+  const p = 1 - q;
+  let V = new Float64Array(N + 2);
+  for (let a = 0; a <= N; a++) {
+    const h = N - a;
+    if (win(a, h, z)) V[a] = Math.max(a + v, 0);
+    else V[a] = optimistic ? pstar(a, h, q, z) * (a + Math.max(v, 0)) : 0;
+  }
+  const n0 = a0 + h0 + 1;
+  for (let n = N - 1; n >= n0; n--) {
+    const W = new Float64Array(N + 2);
+    for (let a = 0; a <= n; a++) {
+      const h = n - a, c = q * V[a + 1] + p * V[a] - q;
+      W[a] = win(a, h, z) ? Math.max(a + v, c, 0) : Math.max(0, c);
+    }
+    V = W;
+  }
+  return q * V[a0 + 1] + p * V[a0] - q;
+}
+
+// bissection en v du changement de signe ; renvoie [lo, hi] avec f(lo) ≤ 0 < f(hi)
+function criticalBound(a, h, q, z, N, optimistic, tol) {
+  const f = v => waitValue(a, h, q, z, v, N, optimistic);
+  let lo = -a, hi = 1;
+  if (f(lo) > 0) return [lo, lo];
+  while (f(hi) <= 0) { hi *= 4; if (hi > 1e300) return [Infinity, Infinity]; }
+  for (let i = 0; i < 300; i++) {
+    let m;
+    if (lo > 0) { if (hi / lo <= 1 + tol / 4) break; m = Math.sqrt(lo * hi); }
+    else { if (hi - lo <= tol / 4) break; m = (lo + hi) / 2; }
+    if (f(m) > 0) hi = m; else lo = m;
+  }
+  return [lo, hi];
+}
+
+function criticalPrize(a, h, q, z, tol) {
+  let N = Math.max(2 * z + 1, a + h + 2, 8);
+  for (;;) {
+    const u = criticalBound(a, h, q, z, N, false, tol)[1]; // abandon forcé : seuil ≥ v*
+    const l = criticalBound(a, h, q, z, N, true, tol)[0];  // optimiste : seuil ≤ v*
+    const width = l > 0 ? u / l - 1 : u - l;
+    if (width <= tol || N > 20000) return { l, u, N };
+    N = Math.floor(N * 1.5) + 1;
+  }
+}
+
+function fmt(x) {
+  if (!isFinite(x)) return String(x);
+  const ax = Math.abs(x);
+  return (ax >= 1e6 || (ax < 1e-3 && ax > 0)) ? x.toExponential(8) : x.toPrecision(10);
+}
+
+const out = document.getElementById('out'), go = document.getElementById('go');
+go.addEventListener('click', () => {
+  const a = parseInt(document.getElementById('a').value, 10);
+  const h = parseInt(document.getElementById('h').value, 10);
+  const q = parseFloat(document.getElementById('q').value);
+  const z = parseInt(document.getElementById('z').value, 10);
+  const tol = parseFloat(document.getElementById('tol').value);
+  const bad = m => { out.innerHTML = '<span class="err">' + m + '</span>'; };
+  if (!(a >= 0 && h >= 0 && z >= 1) || [a, h, z].some(x => !Number.isInteger(x))) return bad('a, h doivent être des entiers ≥ 0 et z un entier ≥ 1.');
+  if (!(q > 0 && q < 0.5)) return bad('q doit être dans (0, 1/2).');
+  if (!(tol > 0 && tol < 1)) return bad('La largeur relative doit être dans (0, 1).');
+  if (win(a, h, z)) return bad('Win est disponible à l\'état (' + a + ', ' + h + ') (a &gt; h ≥ z) : la cagnotte critique n\'y est pas définie, le challenger gagne.');
+  go.disabled = true; out.innerHTML = '<span class="small">Calcul en cours…</span>';
+  setTimeout(() => {
+    const t0 = performance.now();
+    let r;
+    try { r = criticalPrize(a, h, q, z, tol); } catch (e) { go.disabled = false; return bad('Erreur : ' + e.message); }
+    const ms = Math.round(performance.now() - t0);
+    const mid = (r.l + r.u) / 2;
+    const label = (a === 0 && h === 0) ? 'v*(' + q + ', ' + z + ')' : 'v*<sub>' + z + '</sub>(' + a + ', ' + h + ')';
+    out.innerHTML = '<div class="big">' + label + ' ≈ ' + fmt(mid) + '</div>'
+      + '<div>encadrement [' + fmt(r.l) + ', ' + fmt(r.u) + ']</div>'
+      + '<div class="small">troncature N̄ = ' + r.N + ', ' + ms + ' ms, virgule flottante (non certifié)'
+      + (r.N > 20000 ? ' — largeur demandée non atteinte' : '') + '</div>';
+    const tb = document.querySelector('#hist tbody');
+    const tr = document.createElement('tr');
+    tr.innerHTML = '<td>' + a + '</td><td>' + h + '</td><td>' + q + '</td><td>' + z + '</td><td>' + fmt(r.l) + '</td><td>' + fmt(r.u) + '</td>';
+    tb.insertBefore(tr, tb.firstChild);
+    document.getElementById('hist').style.display = '';
+    go.disabled = false;
+  }, 20);
+});
+</script>
+</body>
+</html>
