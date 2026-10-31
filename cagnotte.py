@@ -13,7 +13,7 @@ Méthode (Algorithme 1 adapté à un état quelconque) : pour une cagnotte v, la
 V_v de la course est encadrée par deux inductions rétrogrades sur le triangle
 a + h ≤ N̄, qui diffèrent seulement sur la dernière diagonale (abandon forcé pour
 la borne inférieure, borne P*_z(a, h)·(a + max(v, 0)) de la valeur pour la borne supérieure, analogue de U*) ;
-on continue à (a, h) ssi q·V_v(a+1, h) + p·V_v(a, h+1) − q > 0 (Lemme 3.13 et 3.19(iii)).
+on continue à (a, h) ssi q·V_v(a+1, h) + p·V_v(a, h+1) − q > 0 (Lemme 3.13 et Lemme 3.18(iii)).
 Une bissection en v localise le changement de signe de chaque borne, et N̄ est
 augmenté jusqu'à ce que l'encadrement ait la largeur demandée.
 """
